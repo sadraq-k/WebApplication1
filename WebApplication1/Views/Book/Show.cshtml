@@ -1,0 +1,11 @@
+﻿@model WebApplication1.Models.Book
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Book Information</h2>
+<p><strong>ID:</strong> @Model.Id</p>
+<p><strong>Name:</strong> @Model.Name</p>
+<p><strong>Description:</strong> @Model.Description</p>
+<p><strong>Inventory:</strong> @Model.Inventory</p>
+
+<partial name="_AdPartial" />

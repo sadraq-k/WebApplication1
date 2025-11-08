@@ -1,0 +1,64 @@
+﻿@model List<WebApplication1.Models.Book>
+@{
+    ViewData["Title"] = "Book Report";
+}
+
+<div class="container">
+    <h2>Book Report</h2>
+
+    <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 5px;">
+        <h4>Choose what to show:</h4>
+        <select id="filterSelect" style="padding: 10px; font-size: 16px; margin-right: 10px;">
+            <option value="all">All Books</option>
+            <option value="available">Available Books</option>
+            <option value="unavailable">Unavailable Books</option>
+        </select>
+        <button id="showBtn" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Show Books</button>
+    </div>
+
+    <div id="results">
+        <p style="color: #666;">Select an option and click "Show Books"</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('showBtn').addEventListener('click', function() {
+        var filter = document.getElementById('filterSelect').value;
+        var resultsDiv = document.getElementById('results');
+        var books = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+
+        resultsDiv.innerHTML = '';
+        var count = 0;
+
+        books.forEach(function(book) {
+            var shouldShow = false;
+
+            if (filter === 'all') {
+                shouldShow = true;
+            } else if (filter === 'available' && book.Inventory > 0) {
+                shouldShow = true;
+            } else if (filter === 'unavailable' && book.Inventory === 0) {
+                shouldShow = true;
+            }
+
+            if (shouldShow) {
+                var color = book.Inventory > 0 ? '#28a745' : '#dc3545';
+                var status = book.Inventory > 0 ? 'Available' : 'Out of Stock';
+
+                resultsDiv.innerHTML += `
+                    <div style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                        <h4>${book.Name}</h4>
+                        <p><strong>ID:</strong> ${book.Id}</p>
+                        <p><strong>Description:</strong> ${book.Description}</p>
+                        <p><strong>Inventory:</strong> <span style="color: ${color}; font-weight: bold;">${book.Inventory} (${status})</span></p>
+                    </div>
+                `;
+                count++;
+            }
+        });
+
+        if (count === 0) {
+            resultsDiv.innerHTML = '<p style="color: orange;">No books found!</p>';
+        }
+    });
+</script>
