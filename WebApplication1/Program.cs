@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Data;
 
 /*روال اجرایی سایت از اینجا مدیریت میشه و مرحله به مرحله انجام میشه اینا به میدل ور هستن*/
 
@@ -6,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<MyDBcontext>(options =>
+{
+    options.UseSqlServer(
+        // حج اقا این نقطه ای که جلو دیتا سورس گذاشتیم میگیم حجیه دیتا بیس همینجاس نترس
+        connectionString: "Data source = .;"+
+        "Initial Catalog=MyWeb_Db;" +
+        "TrustServerCertificate=True;" +
+        "Trusted_Connection = True;"
+        );
+});
 
 var app = builder.Build();
 

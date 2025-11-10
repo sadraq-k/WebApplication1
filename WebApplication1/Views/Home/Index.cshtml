@@ -1,5 +1,5 @@
 ﻿<!--این صفحه و کلا فولدر هوم برای شِمای ظاهری سایت هست و هر چیزی که الظاهر اینجا نمایش میدن
-    میشهC# و اچ تی ام ال را باهم اینجا داشت 
+میشهC# و اچ تی ام ال را باهم اینجا داشت 
 -->
 @{
     ViewData["Title"] = "Home Page";
@@ -9,5 +9,22 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<!-- ADD THIS LINE ↓↓↓ -->
 <partial name="_AdPartial" />
+
+<h1>@DateTime.Now</h1>
+<pre> <h3>ya zahra</h3>  <h4>jesus christ</h4></pre>
+
+@{
+    int j = 100;
+    for(int i=0;i<1000;i++)
+    {
+        <h5>time is @DateTime.Now</h5>
+        if ( (i / j) == 1)
+        {
+            <h3>this is pack @((j / 100) )</h3>
+            j += 100;
+        }
+            
+            
+    }
+}
