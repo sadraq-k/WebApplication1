@@ -32,6 +32,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Report">Book Report</a>
                         </li>
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                Reports
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Reports" asp-action="AllBooks">All Books</a></li>
+                                <li><a class="dropdown-item" asp-controller="Reports" asp-action="BooksWithHighInventory">High Inventory Books</a></li>
+                                <li><a class="dropdown-item" asp-controller="Reports" asp-action="IsfahanCustomers">Isfahan Customers</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Reports" asp-action="AllCustomers">All Customers</a></li>
+                                <li><a class="dropdown-item" asp-controller="Reports" asp-action="AllRequests">All Requests</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>

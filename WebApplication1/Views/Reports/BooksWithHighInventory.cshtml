@@ -1,0 +1,43 @@
+﻿@model List<WebApplication1.Models.Book>
+@{
+    ViewData["Title"] = "Books with High Inventory";
+}
+
+<div class="container mt-4">
+    <h2>📦 Books with Inventory > 10</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Inventory</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">No books found with inventory > 10</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>@book.Id</td>
+                        <td>@book.Name</td>
+                        <td>@book.Description</td>
+                        <td>
+                            <span class="badge bg-success">@book.Inventory</span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <p class="text-muted">Total: @Model.Count books</p>
+</div>

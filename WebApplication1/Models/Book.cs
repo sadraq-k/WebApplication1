@@ -7,6 +7,9 @@
         public string Description { get; set; }
         public int Inventory { get; set; }
 
+        // Navigation property - one book can have many requests
+        public List<BookRequest> BookRequests { get; set; }
+
         public void SetInventory(int count)
         {
             if (count >= 0 && count <= 1000)

@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+/*
 builder.Services.AddDbContext<MyDBcontext>(options =>
 {
     options.UseSqlServer(
@@ -18,7 +19,19 @@ builder.Services.AddDbContext<MyDBcontext>(options =>
         "Trusted_Connection = True;"
         );
 });
+*/
 
+builder.Services.AddDbContext<MyDBcontext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+/*
+builder.Services.AddDbContext<MyDBcontext>(options =>
+{
+    options.UseSqlServer(
+        @"Server=(localdb)\mssqllocaldb;Database=MyWebDb;Trusted_Connection=True;TrustServerCertificate=True;"
+    );
+});*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

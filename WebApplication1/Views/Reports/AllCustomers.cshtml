@@ -1,0 +1,32 @@
+﻿@model List<WebApplication1.Models.Customer>
+@{
+    ViewData["Title"] = "All Customers";
+}
+
+<div class="container mt-4">
+    <h2>👥 All Customers</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.Name</td>
+                    <td>@customer.Age years</td>
+                    <td>@customer.Address</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p class="text-muted">Total Customers: @Model.Count</p>
+</div>

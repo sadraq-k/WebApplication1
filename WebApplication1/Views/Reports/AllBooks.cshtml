@@ -1,0 +1,36 @@
+﻿@model List<WebApplication1.Models.Book>
+@{
+    ViewData["Title"] = "All Books";
+}
+
+<div class="container mt-4">
+    <h2>📚 List of All Books</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Inventory</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td>@book.Name</td>
+                    <td>@book.Description</td>
+                    <td>
+                        <span class="badge @(book.Inventory > 10 ? "bg-success" : "bg-warning")">
+                            @book.Inventory
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p class="text-muted">Total Books: @Model.Count</p>
+</div>
