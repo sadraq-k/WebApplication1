@@ -1,0 +1,59 @@
+﻿@model WebApplication1.Models.Fine
+@{
+    ViewData["Title"] = "Register Fine";
+}
+
+<div class="container mt-4">
+    <h2>💰 Register New Fine</h2>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Message
+        </div>
+    }
+
+    @if (ViewBag.Cars == null || ((List<WebApplication1.Models.Car>)ViewBag.Cars).Count == 0)
+    {
+        <div class="alert alert-warning">
+            <strong>No cars available!</strong> Please <a href="/Car/Register">register a car</a> first.
+        </div>
+    }
+    else
+    {
+        <form asp-action="Register" asp-controller="Fine" method="post" class="mt-4">
+            <div class="mb-3">
+                <label asp-for="CarId" class="form-label">Select Car:</label>
+                <select asp-for="CarId" class="form-control" required>
+                    <option value="">-- Choose a car --</option>
+                    @foreach (var car in (List<WebApplication1.Models.Car>)ViewBag.Cars)
+                    {
+                        <option value="@car.CarId">@car.CarName - Owner: @car.OwnerName</option>
+                    }
+                </select>
+                <span asp-validation-for="CarId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FineDate" class="form-label">Fine Date:</label>
+                <input asp-for="FineDate" type="date" class="form-control" required />
+                <span asp-validation-for="FineDate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FineAmount" class="form-label">Fine Amount (Rials):</label>
+                <input asp-for="FineAmount" type="number" class="form-control" placeholder="e.g., 500000" step="1000" required />
+                <span asp-validation-for="FineAmount" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register Fine</button>
+            <a href="/Fine/Search" class="btn btn-secondary">Search Fines</a>
+        </form>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,64 @@
+﻿@model List<WebApplication1.Models.Fine>
+@{
+    ViewData["Title"] = "Search Fines";
+}
+
+<div class="container mt-4">
+    <h2>🔍 Search Fines by Owner Name</h2>
+
+    <div class="mb-3">
+        <a href="/Fine/Register" class="btn btn-primary">Register New Fine</a>
+        <a href="/Fine/GenerateSampleFines" class="btn btn-success">Generate 20 Sample Fines</a>
+    </div>
+
+    <form method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="ownerName" class="form-label">Owner Name:</label>
+            <input type="text" class="form-control" id="ownerName" name="ownerName" 
+                   placeholder="e.g., Ahmad Rezaei" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <hr />
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">
+            @ViewBag.Message
+        </div>
+    }
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <h4>Search Results for: <strong>@ViewBag.OwnerName</strong></h4>
+
+        <table class="table table-striped table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fine ID</th>
+                    <th>Car Name</th>
+                    <th>Fine Date</th>
+                    <th>Fine Amount (Rials)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var fine in Model)
+                {
+                    <tr>
+                        <td>@fine.FineId</td>
+                        <td>@fine.Car.CarName</td>
+                        <td>@fine.FineDate.ToString("yyyy-MM-dd")</td>
+                        <td style="color: red; font-weight: bold;">@fine.FineAmount.ToString("N0")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="alert alert-warning mt-3">
+            <strong>Total Fines:</strong> @Model.Count <br />
+            <strong>Total Amount:</strong> @Model.Sum(f => f.FineAmount).ToString("N0") Rials
+        </div>
+    }
+</div>

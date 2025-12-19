@@ -12,8 +12,8 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(MyDBcontext))]
-    [Migration("20251110191434_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251121080647_AddCarFineSystem")]
+    partial class AddCarFineSystem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,6 +149,41 @@ namespace WebApplication1.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Car", b =>
+                {
+                    b.Property<int>("CarId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarId"));
+
+                    b.Property<string>("CarName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CarId");
+
+                    b.ToTable("Cars");
+
+                    b.HasData(
+                        new
+                        {
+                            CarId = 1,
+                            CarName = "Toyota Camry",
+                            OwnerName = "Ahmad Rezaei"
+                        },
+                        new
+                        {
+                            CarId = 2,
+                            CarName = "Honda Civic",
+                            OwnerName = "Sara Karimi"
+                        });
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -210,6 +245,46 @@ namespace WebApplication1.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Fine", b =>
+                {
+                    b.Property<int>("FineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FineId"));
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("FineAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("FineDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("FineId");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("Fines");
+
+                    b.HasData(
+                        new
+                        {
+                            FineId = 1,
+                            CarId = 1,
+                            FineAmount = 500000m,
+                            FineDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            FineId = 2,
+                            CarId = 1,
+                            FineAmount = 300000m,
+                            FineDate = new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
             modelBuilder.Entity("WebApplication1.Models.BookRequest", b =>
                 {
                     b.HasOne("WebApplication1.Models.Book", "Book")
@@ -229,9 +304,25 @@ namespace WebApplication1.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Fine", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Car", "Car")
+                        .WithMany("Fines")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Book", b =>
                 {
                     b.Navigation("BookRequests");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Car", b =>
+                {
+                    b.Navigation("Fines");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Customer", b =>

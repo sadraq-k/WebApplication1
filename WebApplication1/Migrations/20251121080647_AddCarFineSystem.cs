@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication1.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddCarFineSystem : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,6 +29,20 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    CarId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.CarId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -41,6 +55,27 @@ namespace WebApplication1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fines",
+                columns: table => new
+                {
+                    FineId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FineDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FineAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CarId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fines", x => x.FineId);
+                    table.ForeignKey(
+                        name: "FK_Fines_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "CarId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,6 +118,15 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Cars",
+                columns: new[] { "CarId", "CarName", "OwnerName" },
+                values: new object[,]
+                {
+                    { 1, "Toyota Camry", "Ahmad Rezaei" },
+                    { 2, "Honda Civic", "Sara Karimi" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "Id", "Address", "Age", "Name" },
                 values: new object[,]
@@ -106,6 +150,15 @@ namespace WebApplication1.Migrations
                     { 5, 5, 4, new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Fines",
+                columns: new[] { "FineId", "CarId", "FineAmount", "FineDate" },
+                values: new object[,]
+                {
+                    { 1, 1, 500000m, new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, 300000m, new DateTime(2025, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BookRequests_BookId",
                 table: "BookRequests",
@@ -115,6 +168,11 @@ namespace WebApplication1.Migrations
                 name: "IX_BookRequests_CustomerId",
                 table: "BookRequests",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Fines_CarId",
+                table: "Fines",
+                column: "CarId");
         }
 
         /// <inheritdoc />
@@ -124,10 +182,16 @@ namespace WebApplication1.Migrations
                 name: "BookRequests");
 
             migrationBuilder.DropTable(
+                name: "Fines");
+
+            migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Cars");
         }
     }
 }

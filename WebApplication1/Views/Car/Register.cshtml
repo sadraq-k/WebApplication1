@@ -1,0 +1,38 @@
+﻿@model WebApplication1.Models.Car
+@{
+    ViewData["Title"] = "Register Car";
+}
+
+<div class="container mt-4">
+    <h2>🚗 Register New Car</h2>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Message
+        </div>
+    }
+
+    <form asp-action="Register" asp-controller="Car" method="post" class="mt-4">
+        <div class="mb-3">
+            <label asp-for="CarName" class="form-label">Car Name:</label>
+            <input asp-for="CarName" class="form-control" placeholder="e.g., Toyota Camry" required />
+            <span asp-validation-for="CarName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OwnerName" class="form-label">Owner Name:</label>
+            <input asp-for="OwnerName" class="form-control" placeholder="e.g., Ahmad Rezaei" required />
+            <span asp-validation-for="OwnerName" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register Car</button>
+        <a href="/Car/List" class="btn btn-secondary">View All Cars</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

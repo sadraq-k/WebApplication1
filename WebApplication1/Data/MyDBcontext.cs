@@ -15,6 +15,9 @@ namespace WebApplication1.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<BookRequest> BookRequests { get; set; }
 
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Fine> Fines { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -29,6 +32,11 @@ namespace WebApplication1.Data
                 .HasOne(br => br.Customer)
                 .WithMany(c => c.BookRequests)
                 .HasForeignKey(br => br.CustomerId);
+
+            modelBuilder.Entity<Fine>()
+               .HasOne(f => f.Car)
+               .WithMany(c => c.Fines)
+               .HasForeignKey(f => f.CarId);
 
             // Add some initial data (Seed data)
             modelBuilder.Entity<Book>().HasData(
@@ -54,6 +62,16 @@ namespace WebApplication1.Data
                 new BookRequest { Id = 4, BookId = 3, CustomerId = 3, RequestDate = new DateTime(2025, 2, 5) },
                 new BookRequest { Id = 5, BookId = 5, CustomerId = 4, RequestDate = new DateTime(2025, 3, 10) }
                 );
+
+            modelBuilder.Entity<Car>().HasData(
+                new Car { CarId = 1, CarName = "Toyota Camry", OwnerName = "Ahmad Rezaei" },
+                new Car { CarId = 2, CarName = "Honda Civic", OwnerName = "Sara Karimi" }
+            );
+
+            modelBuilder.Entity<Fine>().HasData(
+                new Fine { FineId = 1, FineDate = new DateTime(2025, 1, 15), FineAmount = 500000, CarId = 1 },
+                new Fine { FineId = 2, FineDate = new DateTime(2025, 2, 20), FineAmount = 300000, CarId = 1 }
+            );
 
         }
     }
