@@ -40,6 +40,50 @@ namespace WebApplication1.Controllers
             return View(customers);
         }
 
+        
+
+        // Report 4: Search books requested by a customer name
+        public IActionResult CustomerBooks()
+        {
+            // Show the search form (GET request)
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CustomerBooks(string customerName)
+        {
+            if (string.IsNullOrEmpty(customerName))
+            {
+                ViewBag.Message = "Please enter a customer name.";
+                return View();
+            }
+
+            // Find the customer by name
+            var customer = _context.Customers
+                .Where(c => c.Name.ToLower() == customerName.ToLower())
+                .FirstOrDefault();
+
+            if (customer == null)
+            {
+                ViewBag.Message = $"Customer '{customerName}' not found.";
+                ViewBag.AllCustomers = _context.Customers.ToList();
+                return View();
+            }
+
+            // Find all books requested by this customer (using Include)
+            var requestedBooks = _context.BookRequests
+                .Include(br => br.Book)           // خواسته شوما از سوال استاد
+                .Include(br => br.Customer)
+                .Where(br => br.CustomerId == customer.Id)
+                .Select(br => br.Book)
+                .Distinct()
+                .ToList();
+
+            ViewBag.CustomerName = customer.Name;
+            return View(requestedBooks);
+        }
+
         // Bonus: لیست تمام مشتریان
         public IActionResult AllCustomers()
         {

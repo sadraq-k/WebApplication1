@@ -41,7 +41,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Fine" asp-action="Search">Search Fines</a>
                         </li>
-                       
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                                 Reports
@@ -50,6 +50,7 @@
                                 <li><a class="dropdown-item" asp-controller="Reports" asp-action="AllBooks">All Books</a></li>
                                 <li><a class="dropdown-item" asp-controller="Reports" asp-action="BooksWithHighInventory">High Inventory Books</a></li>
                                 <li><a class="dropdown-item" asp-controller="Reports" asp-action="IsfahanCustomers">Isfahan Customers</a></li>
+                                <li><a class="dropdown-item" asp-controller="Reports" asp-action="CustomerBooks">Customer Book Requests</a></li>  <!-- ADD THIS LINE -->
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-controller="Reports" asp-action="AllCustomers">All Customers</a></li>
                                 <li><a class="dropdown-item" asp-controller="Reports" asp-action="AllRequests">All Requests</a></li>
